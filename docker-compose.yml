@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: bingo_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: towardsme
+      MYSQL_DATABASE: bingo_app
+    ports:
+      - "3307:3306" # host:container
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./bingo-backend
+    container_name: bingo_backend
+    restart: always
+    ports:
+      - "5002:5001"
+    environment:
+      NODE_ENV: development
+      ACCESS_TOKEN_SECRET: supersecretaccesstoken
+      REFRESH_TOKEN_SECRET: supersecretrefreshtoken
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: towardsme
+      DB_NAME: bingo_app
+      DB_PORT: 3306
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend:
+    build: ./bingo-frontend
+    container_name: bingo_frontend
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
