@@ -2,6 +2,7 @@ import { useState } from 'react';
 import API from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 
+
 export default function Login() {
   const [form, setForm] = useState({ username: '', email: '', password: '' });
   const [error, setError] = useState('');
@@ -49,8 +50,15 @@ export default function Login() {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #fbc5dcff, #ff85d4ff)',
         padding: '2rem',
+        // ✅ Increment: conditional background image with slight overlay
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundImage: `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(${
+  isRegister ? '/images/register.png' : '/images/login.png'
+})`,
+
       }}
     >
       <div
