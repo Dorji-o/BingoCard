@@ -13,6 +13,19 @@ jobs:
     defaults:
       run:
         working-directory: bingo-backend
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: towardsme
+          MYSQL_DATABASE: bingo_app
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -25,13 +38,20 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Wait for MySQL
+        run: |
+          until mysqladmin ping -h 127.0.0.1 -P 3306 --silent; do
+            echo "Waiting for MySQL..."
+            sleep 3
+          done
+
       - name: Run Linter
         run: npm run lint || echo "No linter script defined"
 
       - name: Run Tests
-        run: npm test || echo "No tests defined"
+        run: npm test
 
-      - name: Build (if needed)
+      - name: Build (optional)
         run: npm run build || echo "No build script defined"
 
   frontend:
@@ -56,7 +76,7 @@ jobs:
         run: npm run lint || echo "No linter script defined"
 
       - name: Run Tests
-        run: npm test || echo "No tests defined"
+        run: npm test
 
       - name: Build
         run: npm run build
