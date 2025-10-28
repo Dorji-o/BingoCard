@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: bingo-backend
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: frontend
+        working-directory: bingo-frontend
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
