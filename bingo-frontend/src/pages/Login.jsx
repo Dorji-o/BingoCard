@@ -49,7 +49,7 @@ export default function Login() {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #6a11cb, #2575fc)',
+        background: 'linear-gradient(135deg, #fbc5dcff, #ff85d4ff)',
         padding: '2rem',
       }}
     >
@@ -134,8 +134,8 @@ export default function Login() {
               cursor: 'pointer',
               transition: 'background 0.3s',
             }}
-            onMouseOver={(e) => (e.currentTarget.style.background = '#6a11cb')}
-            onMouseOut={(e) => (e.currentTarget.style.background = '#2575fc')}
+            onMouseOver={(e) => (e.currentTarget.style.background = '#f1a8c4ff')}
+            onMouseOut={(e) => (e.currentTarget.style.background = '#fa699cff')}
           >
             {isRegister ? 'Register' : 'Login'}
           </button>
@@ -145,7 +145,7 @@ export default function Login() {
           style={{
             marginTop: '1.5rem',
             cursor: 'pointer',
-            color: '#2575fc',
+            color: '#fcd2e7ff',
             fontWeight: '500',
           }}
           onClick={() => setIsRegister(!isRegister)}
