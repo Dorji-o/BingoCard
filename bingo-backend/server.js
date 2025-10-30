@@ -5,6 +5,7 @@ import {db} from './config/db.js';
 import protectedRoutes from './routes/protectedRoutes.js';
 
 
+
 const app = express();
 app.use(cors());
 app.use(express.json());

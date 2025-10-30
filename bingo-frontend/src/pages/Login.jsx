@@ -2,7 +2,6 @@ import { useState } from 'react';
 import API from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 
-
 export default function Login() {
   const [form, setForm] = useState({ username: '', email: '', password: '' });
   const [error, setError] = useState('');
@@ -19,17 +18,27 @@ export default function Login() {
 
     try {
       if (isRegister) {
+        // Register user in MySQL
         await API.post('/auth/register', form);
         alert('Registration successful! You can now login.');
         setIsRegister(false);
         setForm({ username: '', email: '', password: '' });
       } else {
+        // Login user from MySQL
         const res = await API.post('/auth/login', {
           email: form.email,
           password: form.password,
         });
+
+        // Save JWT tokens
         localStorage.setItem('accessToken', res.data.accessToken);
         localStorage.setItem('refreshToken', res.data.refreshToken);
+
+        // Save username/email locally for private Bingo cards
+        localStorage.setItem('username', form.email); 
+        // Optional: If backend returns username, use that instead:
+        // localStorage.setItem('username', res.data.username);
+
         navigate('/dashboard');
       }
     } catch (err) {
@@ -51,14 +60,12 @@ export default function Login() {
         alignItems: 'center',
         minHeight: '100vh',
         padding: '2rem',
-        // ✅ Increment: conditional background image with slight overlay
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundImage: `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(${
-  isRegister ? '/images/register.png' : '/images/login.png'
-})`,
-
+          isRegister ? '/images/register.png' : '/images/login.png'
+        })`,
       }}
     >
       <div
