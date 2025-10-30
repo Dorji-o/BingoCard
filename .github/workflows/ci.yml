@@ -76,7 +76,9 @@ jobs:
         run: npm run lint || echo "No linter script defined"
 
       - name: Run Tests
-        run: npm test
+        run: |
+          # Use jsdom environment and disable watch mode
+          npm test -- --watchAll=false --coverage
 
       - name: Build
         run: npm run build

@@ -1,6 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import authRoutes from '../routes/authRoutes.js';
+import app from '../server.js';
 
 const app = express();
 app.use(express.json());
